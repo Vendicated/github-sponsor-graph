@@ -1,0 +1,22 @@
+{
+    "name": "github-sponsor-graph",
+    "description": "Generate a graph of your GitHub sponsors",
+    "version": "1.0.0",
+    "type": "module",
+    "main": "generate-graph.js",
+    "dependencies": {
+        "canvas": "^2.11.2",
+        "commander": "^11.1.0"
+    },
+    "devDependencies": {},
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "Vendicated <vendicated+npm@riseup.net>",
+    "license": "GPL-3.0-or-later",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Vendicated/github-sponsor-graph.git"
+    }
+}
