@@ -2,6 +2,8 @@
 
 A cli tool to generate a graph of your GitHub sponsors!
 
+Recommended Usage: Create a cronjob (or equivalent) that runs this script once an hour, then serve the resulting file with the http server of your choice ~ I currently have no interest in turning this into a public API; feel free to fork and do so
+
 ![Example Graph](./example-graph.png)
 
 ## Usage
