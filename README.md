@@ -25,7 +25,7 @@ GITHUB_TOKEN=YourTokenGoesHere node .
 You can customise the graph using several options:
 
 ```
-Usage: github-sponsor-graph [options] <github-token>
+Usage: github-sponsor-graph [options]
 
 Generate a graph of your GitHub sponsors
 
