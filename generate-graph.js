@@ -26,10 +26,17 @@ program
     .option("-c, --images-per-row <images-per-row>", "How many images should be in a row", parseNumber, 20)
     .option("-o, --out-file <out-file>", "Where to write the graph to", "graph.png")
     .option("-d, --skip-default-avatars", "Skip default avatars")
+    .option("-p --include-private", "Also include private sponsors")
     .parse();
 
 const [GITHUB_TOKEN] = program.args;
-const { size, imagesPerRow, outFile: OUT_FILE, skipDefaultAvatars: SKIP_DEFAULT_AVATARS } = program.opts();
+const {
+    size,
+    imagesPerRow,
+    outFile: OUT_FILE,
+    skipDefaultAvatars: SKIP_DEFAULT_AVATARS,
+    includePrivate,
+} = program.opts();
 const IMAGE_SIZE = Number(size);
 const IMAGES_PER_ROW = Number(imagesPerRow);
 
@@ -49,7 +56,10 @@ async function fetchDonorPfps(username, after = null) {
             }
             nodes {
               ... on User {
-                avatarUrl
+                avatarUrl,
+                sponsorshipForViewerAsSponsorable {
+                  privacyLevel
+                }
               }
             }
           }
@@ -76,7 +86,9 @@ async function fetchDonorPfps(username, after = null) {
         nodes,
     } = data.user.sponsors;
 
-    const avatarUrls = nodes.map(n => n.avatarUrl);
+    const avatarUrls = nodes
+        .filter(n => includePrivate || n.sponsorshipForViewerAsSponsorable.privacyLevel === "PUBLIC")
+        .map(n => n.avatarUrl);
 
     if (hasNextPage) {
         const nextPages = await fetchDonorPfps(username, endCursor);

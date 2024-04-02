@@ -38,6 +38,7 @@ Options:
   -c, --images-per-row <images-per-row>  How many images should be in a row (default: 20)
   -o, --out-file <out-file>              Where to write the graph to (default: "graph.png")
   -d, --skip-default-avatars             Skip default avatars
+  -p --include-private                   Also include private sponsors
   -h, --help                             display help for command
 ```
 
