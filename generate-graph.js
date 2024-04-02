@@ -21,7 +21,6 @@ program
     .name(name)
     .description(description)
     .version(version)
-    .argument("<github-token>", "Your GitHub API token. Must be a legacy token with read:user permission")
     .option("-s, --size <size>", "Size of the images in the graph", parseNumber, 64)
     .option("-c, --images-per-row <images-per-row>", "How many images should be in a row", parseNumber, 20)
     .option("-o, --out-file <out-file>", "Where to write the graph to", "graph.png")
@@ -29,7 +28,14 @@ program
     .option("-p --include-private", "Also include private sponsors")
     .parse();
 
-const [GITHUB_TOKEN] = program.args;
+const { GITHUB_TOKEN } = process.env;
+if (!GITHUB_TOKEN) {
+    console.error(
+        "Please set the GITHUB_TOKEN environment variable to a valid legacy GitHub token with the read:user scope and try again."
+    );
+    process.exit(1);
+}
+
 const {
     size,
     imagesPerRow,

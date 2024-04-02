@@ -19,7 +19,7 @@ cd github-sponsor-graph
 pnpm i  # or use npm/yarn
 
 # Run
-node . YOUR_GITHUB_TOKEN
+GITHUB_TOKEN=YourTokenGoesHere node .
 ```
 
 You can customise the graph using several options:
@@ -28,9 +28,6 @@ You can customise the graph using several options:
 Usage: github-sponsor-graph [options] <github-token>
 
 Generate a graph of your GitHub sponsors
-
-Arguments:
-  github-token                           Your GitHub API token. Must be a legacy token with read:user permission
 
 Options:
   -V, --version                          output the version number
