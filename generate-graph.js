@@ -4,9 +4,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { createCanvas, loadImage } from "canvas";
-import { InvalidArgumentError } from "commander";
-import { program } from "commander";
+import { createCanvas, loadImage } from "@napi-rs/canvas";
+import { InvalidArgumentError, program } from "commander";
 import { readFileSync, writeFileSync } from "fs";
 
 const { name, description, version } = JSON.parse(readFileSync("./package.json", "utf8"));
@@ -33,6 +32,7 @@ if (!GITHUB_TOKEN) {
     console.error(
         "Please set the GITHUB_TOKEN environment variable to a valid legacy GitHub token with the read:user scope and try again."
     );
+    console.error("https://github.com/settings/tokens/new?scopes=read%3Auser&description=github-sponsor-graph");
     process.exit(1);
 }
 
@@ -145,7 +145,7 @@ async function generateGraph(username) {
         }
     }
 
-    return canvas.toBuffer();
+    return canvas.toBuffer("image/png");
 }
 
 const { login } = await fetch("https://api.github.com/user", {
