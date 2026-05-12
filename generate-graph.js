@@ -104,6 +104,10 @@ async function fetchDonorPfps(username, after = null) {
     return avatarUrls;
 }
 
+// GitHub API won't resize default avatars. Technically this can false negative if the specified size
+// is the same as the default avatar size. But I don't think there's a better way to detect this
+const isDefaultAvatar = img => img.height !== IMAGE_SIZE && img.width !== IMAGE_SIZE;
+
 async function generateGraph(username) {
     const avatarUrls = await fetchDonorPfps(username);
 
@@ -121,9 +125,17 @@ async function generateGraph(username) {
         })
     ).then(images => {
         images = images.filter(Boolean);
-        if (SKIP_DEFAULT_AVATARS) images = images.filter(img => img.height === IMAGE_SIZE || img.width === IMAGE_SIZE);
+        if (SKIP_DEFAULT_AVATARS) images = images.filter(img => !isDefaultAvatar(img));
 
-        return images;
+        // sort default avatars last
+        return images.sort((a, b) => {
+            const aDefault = isDefaultAvatar(a);
+            const bDefault = isDefaultAvatar(b);
+            
+            if (aDefault && !bDefault) return 1;
+            if (!aDefault && bDefault) return -1;
+            return 0;
+        });
     });
 
     const imageCount = images.length;
